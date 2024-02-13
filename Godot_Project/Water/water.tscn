@@ -1,6 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://y0f0ioajjfph"]
+[gd_scene load_steps=8 format=3 uid="uid://y0f0ioajjfph"]
 
-[ext_resource type="Shader" path="res://Water/Past_Saves/differential_water_21224.gdshader" id="1_updxc"]
+[ext_resource type="Shader" path="res://Water/differential_water.gdshader" id="1_f0p4v"]
+[ext_resource type="Texture2D" uid="uid://dwg2birdjfg5j" path="res://Env/kloppenheim_06_puresky_4k.exr" id="2_p6xk6"]
 
 [sub_resource type="QuadMesh" id="QuadMesh_yrmms"]
 size = Vector2(400, 400)
@@ -10,17 +11,35 @@ orientation = 1
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_4oebw"]
 render_priority = 0
-shader = ExtResource("1_updxc")
-shader_parameter/_VertexAmplitudeMult = 0.885
-shader_parameter/_VertexAmplitude = 1.934
-shader_parameter/_VertexFrequencyMult = 1.037
+shader = ExtResource("1_f0p4v")
+shader_parameter/_VertexAmplitudeMult = 0.848
+shader_parameter/_VertexAmplitude = 1.739
+shader_parameter/_VertexFrequencyMult = 1.066
 shader_parameter/_VertexFrequency = 1.0
 shader_parameter/_VertexWavelengthMult = 0.871
-shader_parameter/_VertexWavelength = 398.959
-shader_parameter/_VertexPeakWidth = 0.571
+shader_parameter/_VertexWavelength = 384.466
+shader_parameter/_VertexPeakWidth = 0.317
+
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_uh7tu"]
+panorama = ExtResource("2_p6xk6")
+
+[sub_resource type="Sky" id="Sky_j5s5x"]
+sky_material = SubResource("PanoramaSkyMaterial_uh7tu")
+
+[sub_resource type="Environment" id="Environment_hi184"]
+background_mode = 2
+sky = SubResource("Sky_j5s5x")
+ambient_light_source = 1
+reflected_light_source = 1
 
 [node name="Node3D" type="Node3D"]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("QuadMesh_yrmms")
 surface_material_override/0 = SubResource("ShaderMaterial_4oebw")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_hi184")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.697406, 0.415408, -0.584004, 0.0184781, 0.804186, 0.594091, 0.716438, -0.425114, 0.553168, -194.027, 22.4261, 193.557)

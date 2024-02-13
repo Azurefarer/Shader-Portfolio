@@ -5,7 +5,7 @@ render_mode skip_vertex_transform;
 #define GUASSIAN_DEVIATION
 #define LIGHTING
 #define DIFFUSE
-//#define SPECULAR
+#define SPECULAR
 
 const int num_sines = 32;
 
@@ -153,21 +153,12 @@ void light() {
 		vec3 v = normalize((invViewMat * vec4(VIEW, 0.0)).xyz);
 		vec3 norm = normalize(NORMAL);
 		#ifdef DIFFUSE
-		if (dot(norm, -light) >= 0.1) {
-			DIFFUSE_LIGHT += ALBEDO * dot(norm, -light);
-		}
-		else if (dot(norm, -light) >= 0.0) {
-			DIFFUSE_LIGHT += ALBEDO * 0.1;
-		}
-		else {
-			DIFFUSE_LIGHT += ALBEDO * 0.0;
-		}
-//			DIFFUSE_LIGHT += ALBEDO * clamp(dot(norm, -light), 0.0, 1.0);
+			DIFFUSE_LIGHT += ALBEDO * clamp(dot(norm, -light), 0.0, 1.0);
 		#endif
 		#ifdef SPECULAR
 			vec3 reflight = normalize(reflect(-LIGHT, NORMAL));
 			vec3 h = normalize(VIEW + LIGHT);
-			float spec = pow(clamp(dot(reflight, VIEW), 0.0, 1.0), 10.0);
+			float spec = pow(clamp(dot(reflight, VIEW), 0.0, 1.0), 5.0);
 			SPECULAR_LIGHT += spec;
 		#endif
 	#endif
