@@ -1,7 +1,8 @@
-[gd_scene load_steps=8 format=3 uid="uid://y0f0ioajjfph"]
+[gd_scene load_steps=9 format=3 uid="uid://y0f0ioajjfph"]
 
 [ext_resource type="Shader" path="res://Water/differential_water.gdshader" id="1_f0p4v"]
 [ext_resource type="Texture2D" uid="uid://dwg2birdjfg5j" path="res://Env/kloppenheim_06_puresky_4k.exr" id="2_p6xk6"]
+[ext_resource type="PackedScene" uid="uid://dgod6xts0vhra" path="res://Observer/observer.tscn" id="3_8ja5y"]
 
 [sub_resource type="QuadMesh" id="QuadMesh_yrmms"]
 size = Vector2(400, 400)
@@ -50,6 +51,7 @@ transform = Transform3D(-0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, -0.707107
 
 [node name="box" type="CSGBox3D" parent="CSG env"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -96.8377, -22.9909, 0)
+use_collision = true
 size = Vector3(600, 100, 450)
 
 [node name="cutout" type="CSGBox3D" parent="CSG env/box"]
@@ -88,3 +90,6 @@ operation = 2
 radius = 6.668
 height = 390.0
 sides = 16
+
+[node name="Obs" parent="." instance=ExtResource("3_8ja5y")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 137.849, 37.2901, -254.993)
