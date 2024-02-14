@@ -17,6 +17,7 @@ uniform sampler2D screen : hint_screen_texture;
 
 varying mat4 invViewMat;
 
+
 struct Wave {
 	vec2[num_sines] v; // velocity
 	vec2 pos; // position

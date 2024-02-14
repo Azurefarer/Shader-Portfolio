@@ -1,3 +1,59 @@
-[gd_scene format=3 uid="uid://bwy7xb84h3uqc"]
+[gd_scene load_steps=12 format=3 uid="uid://bwy7xb84h3uqc"]
+
+[ext_resource type="PackedScene" uid="uid://cfnriah5oilpc" path="res://ToonShader/person.fbx" id="1_yms5q"]
+[ext_resource type="Texture2D" uid="uid://dwg2birdjfg5j" path="res://Env/kloppenheim_06_puresky_4k.exr" id="2_awdgq"]
+[ext_resource type="PackedScene" uid="uid://dgod6xts0vhra" path="res://Observer/observer.tscn" id="3_83ki6"]
+[ext_resource type="Shader" path="res://AdvancedPost/Screen_Space/Vingette/Vingette.gdshader" id="4_y2uf7"]
+
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_p8drk"]
+panorama = ExtResource("2_awdgq")
+
+[sub_resource type="Sky" id="Sky_d6pag"]
+sky_material = SubResource("PanoramaSkyMaterial_p8drk")
+
+[sub_resource type="Environment" id="Environment_toh3r"]
+background_mode = 2
+sky = SubResource("Sky_d6pag")
+
+[sub_resource type="QuadMesh" id="QuadMesh_gk8bc"]
+flip_faces = true
+size = Vector2(2, 2)
+subdivide_width = 25
+subdivide_depth = 25
+
+[sub_resource type="Gradient" id="Gradient_u17x8"]
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_ynkxl"]
+gradient = SubResource("Gradient_u17x8")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ichks"]
+render_priority = 0
+shader = ExtResource("4_y2uf7")
+shader_parameter/gradient = SubResource("GradientTexture2D_ynkxl")
 
 [node name="adv_post" type="Node3D"]
+
+[node name="person" parent="." instance=ExtResource("1_yms5q")]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_toh3r")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.926415, 0.143023, -0.348281, 0.0649711, 0.850434, 0.522055, 0.370856, -0.506267, 0.778562, 0.276123, 3.84387, -11.8863)
+
+[node name="CSG Env" type="Node3D" parent="."]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="CSG Env"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4.99986, 0)
+size = Vector3(75, 10, 75)
+
+[node name="obsv" parent="." instance=ExtResource("3_83ki6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.3128, 11.648, 25.2602)
+
+[node name="AdvPostMesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.407112, 0)
+mesh = SubResource("QuadMesh_gk8bc")
+surface_material_override/0 = SubResource("ShaderMaterial_ichks")

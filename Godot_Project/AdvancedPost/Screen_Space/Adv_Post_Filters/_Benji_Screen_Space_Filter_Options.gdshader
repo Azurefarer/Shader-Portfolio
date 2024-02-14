@@ -5,7 +5,7 @@ uniform sampler2D screen_texture : hint_screen_texture;
 uniform sampler2D depth_texture : hint_depth_texture;
 
 void vertex() {
-//	POSITION = vec4(VERTEX, 1.0);
+	POSITION = vec4(VERTEX, 1.0);
 }
 
 void fragment() {
