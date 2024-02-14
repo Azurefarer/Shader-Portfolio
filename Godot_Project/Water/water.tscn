@@ -13,13 +13,13 @@ orientation = 1
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_4oebw"]
 render_priority = 0
 shader = ExtResource("1_f0p4v")
-shader_parameter/_VertexAmplitudeMult = 0.87
-shader_parameter/_VertexAmplitude = 0.957
-shader_parameter/_VertexFrequencyMult = 1.066
+shader_parameter/_VertexAmplitudeMult = 0.783
+shader_parameter/_VertexAmplitude = 1.066
+shader_parameter/_VertexFrequencyMult = 1.037
 shader_parameter/_VertexFrequency = 1.0
-shader_parameter/_VertexWavelengthMult = 0.871
-shader_parameter/_VertexWavelength = 384.466
-shader_parameter/_VertexPeakWidth = 0.317
+shader_parameter/_VertexWavelengthMult = 0.885
+shader_parameter/_VertexWavelength = 319.249
+shader_parameter/_VertexPeakWidth = 0.435
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_uh7tu"]
 panorama = ExtResource("2_p6xk6")
