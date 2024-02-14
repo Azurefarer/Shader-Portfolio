@@ -1,6 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://y0f0ioajjfph"]
+[gd_scene load_steps=9 format=3 uid="uid://y0f0ioajjfph"]
 
-[ext_resource type="Shader" path="res://Water/Past_Saves/differential_water_21224.gdshader" id="1_updxc"]
+[ext_resource type="Shader" path="res://Water/differential_water.gdshader" id="1_f0p4v"]
+[ext_resource type="Texture2D" uid="uid://dwg2birdjfg5j" path="res://Env/kloppenheim_06_puresky_4k.exr" id="2_p6xk6"]
+[ext_resource type="PackedScene" uid="uid://dgod6xts0vhra" path="res://Observer/observer.tscn" id="3_8ja5y"]
 
 [sub_resource type="QuadMesh" id="QuadMesh_yrmms"]
 size = Vector2(400, 400)
@@ -10,17 +12,84 @@ orientation = 1
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_4oebw"]
 render_priority = 0
-shader = ExtResource("1_updxc")
-shader_parameter/_VertexAmplitudeMult = 0.885
-shader_parameter/_VertexAmplitude = 1.934
+shader = ExtResource("1_f0p4v")
+shader_parameter/_VertexAmplitudeMult = 0.783
+shader_parameter/_VertexAmplitude = 1.066
 shader_parameter/_VertexFrequencyMult = 1.037
 shader_parameter/_VertexFrequency = 1.0
-shader_parameter/_VertexWavelengthMult = 0.871
-shader_parameter/_VertexWavelength = 398.959
-shader_parameter/_VertexPeakWidth = 0.571
+shader_parameter/_VertexWavelengthMult = 0.885
+shader_parameter/_VertexWavelength = 319.249
+shader_parameter/_VertexPeakWidth = 0.435
+
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_uh7tu"]
+panorama = ExtResource("2_p6xk6")
+
+[sub_resource type="Sky" id="Sky_j5s5x"]
+sky_material = SubResource("PanoramaSkyMaterial_uh7tu")
+
+[sub_resource type="Environment" id="Environment_hi184"]
+background_mode = 2
+sky = SubResource("Sky_j5s5x")
+ambient_light_source = 1
+reflected_light_source = 1
 
 [node name="Node3D" type="Node3D"]
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+[node name="water" type="MeshInstance3D" parent="."]
+transform = Transform3D(-0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, -0.707107, 0, 10.4097, 0)
 mesh = SubResource("QuadMesh_yrmms")
 surface_material_override/0 = SubResource("ShaderMaterial_4oebw")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_hi184")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.697406, 0.415408, -0.584004, 0.0184781, 0.804186, 0.594091, 0.716438, -0.425114, 0.553168, -194.027, 22.4261, 193.557)
+
+[node name="CSG env" type="Node3D" parent="."]
+transform = Transform3D(-0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, -0.707107, 0, 0, 0)
+
+[node name="box" type="CSGBox3D" parent="CSG env"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -96.8377, -22.9909, 0)
+use_collision = true
+size = Vector3(600, 100, 450)
+
+[node name="cutout" type="CSGBox3D" parent="CSG env/box"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 99.1425, 36.6624, 0)
+operation = 2
+size = Vector3(390, 50, 390)
+
+[node name="arena" type="CSGCylinder3D" parent="CSG env/box"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -207.478, 49.4636, -75.2628)
+operation = 2
+radius = 48.58
+height = 1.683
+sides = 16
+
+[node name="CSGBox3D" type="CSGBox3D" parent="CSG env/box"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -210.547, 52.521, -2.10739)
+size = Vector3(20, 5, 20)
+
+[node name="rail" type="CSGCylinder3D" parent="CSG env/box"]
+transform = Transform3D(-8.9407e-08, 1, -4.37114e-08, 0, -4.37114e-08, -1, -1, -8.9407e-08, 0, 99.1464, 49.4683, -195.994)
+operation = 2
+radius = 6.668
+height = 390.0
+sides = 16
+
+[node name="rail2" type="CSGCylinder3D" parent="CSG env/box"]
+transform = Transform3D(4.37114e-08, -1.78814e-07, -1, 1, 8.9407e-08, 4.37114e-08, 8.9407e-08, -1, 1.78814e-07, -95.3815, 50.1228, 0.0182571)
+operation = 2
+radius = 6.668
+height = 390.0
+sides = 16
+
+[node name="rail3" type="CSGCylinder3D" parent="CSG env/box"]
+transform = Transform3D(-2.38419e-07, 1, -2.22525e-07, 1.33118e-07, -2.22525e-07, -1, -1, -2.38419e-07, -1.33118e-07, 98.8204, 49.6973, 196.591)
+operation = 2
+radius = 6.668
+height = 390.0
+sides = 16
+
+[node name="Obs" parent="." instance=ExtResource("3_8ja5y")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 137.849, 37.2901, -254.993)
